@@ -34,7 +34,7 @@
     <i class="fa fa-car w3-xxlarge"></i>
     <p>INGRESO & SALIDA</p>
   </a>
-  <a href= "crear_dueño.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+  <a href= "#crear_dueños" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-user-plus w3-xxlarge"></i>
     <p>CREAR DUEÑO</p>
   </a>
@@ -49,7 +49,7 @@
    </a>
 </nav>
 
-       <div class="banner w3-center" >
+       <div class="banner w3-center">
           <h1>Bienvenidos</h1>
         </div>
         <p style="text-align: center;">
@@ -65,22 +65,24 @@
           <div class="w3-half">
             <ul class="w3-ul w3-light-blue w3-center w3-opacity w3-hover-opacity-off">
               <li class="w3-dark-grey w3-xlarge w3-padding-32">INGRESO</li>
-              <form method="POST" id="ingreso_form" target="_blank">
-                <p><input id="patente" class="w3-input w3-padding-16" type="text" placeholder="Patente" required name="Patente"></p>
-              <li class="w3-light-blue w3-padding-24">
-                <button id="save_patente_btn" class="w3-button w3-white w3-padding-large w3-hover-green" >GUARDAR</button>
-                <!--AGREGAR BOTON OCULTO PARA AGREGAR CAMPO DE TIEMPO / INCLUIR DE JS FUNCION ONCLICK-->
-              </li>
+
+                <form method="POST" id="ingreso_form" target="_blank">
+                  <p><input id="patente" class="w3-input w3-padding-16" type="text" placeholder="Patente" required  name="Patente"></p>
+                  <li class="w3-light-blue w3-padding-24"></li>
+                  <li class="w3-light-blue w3-padding-24">
+                  <button id="save_patente_btn" class="w3-button w3-white w3-padding-large w3-hover-green" type="submit">GUARDAR</button>
+        <!--AGREGAR BOTON OCULTO PARA AGREGAR CAMPO DE TIEMPO / INCLUIR DE JS FUNCION ONCLICK-->
+                  </li>
+                </form>
             </ul>
           </div>
     
-          <div class="w3-half" id="vehiculos" >
+          <div class="w3-half" >
             <ul class="w3-ul w3-light-green w3-center w3-opacity w3-hover-opacity-off">
               <li class="w3-dark-grey w3-xlarge w3-padding-32">SALIDA</li>
-              <li class="w3-padding-16">Prueba 1</li>
-              <li class="w3-padding-16">Prueba 2</li>
-              <li class="w3-padding-16">Prueba 3</li>
-              <li class="w3-padding-16">Prueba 4</li>
+              <div id="vehiculos">
+
+              </div>
             </ul>
           </div>
           </div>
@@ -89,6 +91,28 @@
 
         <br></br><br></br><br></br><br></br><br></br><br></br><br><br><br><br>
         <!--- END INGRESO & SALIDA (REF ID) --->
+
+        <div class="w3-padding-64 w3-content w3-text-grey" id="crear_dueños">
+          <h1 class="w3-text-light-grey">CREAR DUEÑOS</h1>
+          <hr style="width:200px" class="w3-opacity">
+
+          <form method="POST" id="crear_dueño_form" target="_blank">
+            <p><input id="nombre_dueño" class="w3-input w3-padding-16" type="text" placeholder="Nombre"  required name="Nombre"></p>
+            <p><input id="apellido_dueño" class="w3-input w3-padding-16" type="text" placeholder="Apellido" required name="Apellido"></p>
+            <p><input id="patente_dueño" class="w3-input w3-padding-16" type="text" placeholder="Patente" required name="Patente"></p>
+            <p><input id="telefono_dueño" class="w3-input w3-padding-16" type="text" placeholder="Telefono" name="Telefono"></p>
+            <p><input id="descripcion_dueño" class="w3-input w3-padding-16" type="text" placeholder="Descripcion" name="Descripcion"></p>
+            <p>
+              <button id="guardar_dueño_btn" class="w3-button w3-light-grey w3-padding-large" type="submit">
+                <i class="fa fa-paper-plane"></i> GUARDAR
+              </button>
+            </p>
+          </form>
+        </div>
+        <br></br><br></br><br></br><br></br><br></br><br></br><br><br><br><br>
+        <!--- End CREAR DUEÑOS --->
+
+
 
     
         <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>

@@ -16,7 +16,9 @@ const firestore = firebase.firestore();
 
 const crear_dueño_form = document.querySelector("#crear_dueño_form");
 const guardar_dueño_btn = document.querySelector("#guardar_dueño_btn");
-const vehiculos = document.querySelector("#vehiculos");
+const ingreso_form = document.querySelector("#ingreso_form");
+const save_patente_btn = document.querySelector("#save_patente_btn");
+
 
 if (crear_dueño_form != null){
     let d;
@@ -49,22 +51,47 @@ if (crear_dueño_form != null){
         
         
     })
-}
-const ingreso_form = document.querySelector("#ingreso_form");
-const save_patente_btn = document.querySelector("#save_patente_btn");
+};
+
+
 
 if (ingreso_form != null){
     let d;
     ingreso_form.addEventListener("submit", async(e)=>{ 
+    
         e.preventDefault();
         if(document.getElementById("patente").value != ""){
-            let patente = document.getElementById("patente").value;
-            
-            let post = {
-                patente,
+            let fecha = new Date();
+            var dia = fecha.getDate();
+            var mes = fecha.getMonth();
+            var year = fecha.getFullYear();
+            var h = fecha.getHours();
+            var m = fecha.getMinutes();
+            if (h == 24){
+                h = 0;
+            } else if(h > 12){
+                h = h - 0;
+            }
+            if(h<10){
+                h = "0"+ h;
+            }
+            if(m<10){
+                m = "0"+ m;
             }
 
-            await firebase.firestore().collection("Ingreso_Vehiculos").add(post);
+            let patente = document.getElementById("patente").value;
+            let fecha_total = dia+ "/"+ (mes+1) + "/" + year;
+            let ingreso = h + ":" + m;
+            let salida = "--:--";
+
+            let post = {
+                patente,
+                fecha_total,
+                ingreso,
+                salida,
+            }
+
+            await firebase.firestore().collection("Vehiculos").add(post);
             console.log("Se ha agregado patente correctamente...");
             alert("Se ha ingresado el vehiculo correctamente");
 
@@ -76,34 +103,4 @@ if (ingreso_form != null){
         
         
     })
-}
-
-const getPatente = async() => {
-    let Patente_Arreglo= [];
-    let docs = await firebase.firestore().collection("Ingreso_Vehiculos").get().catch(err=>console.log(err));
-    docs.forEach(doc => {
-        Patente_Arreglo.push({"id":doc.id, "data":doc.data()});
-    });
-    
-    createChildren(Patente_Arreglo);
-}
-
-const createChildren = async(arr) => {
-    if(vehiculos != null){
-        arr.map( pos => {
-            let div = document.createElement("div");
-            let cover = document.createElement("div");
-            let anchor = document.createElement("a");
-            let anchorNode = document.createTextNode(vehiculos.data.title);
-            anchor.setAttribute("href", "#vehiculos/"+ vehiculos.id);
-
-            anchor.appendChild(anchorNode);
-            div.classList.add("vehiculos");
-            div.appendChild(cover);
-            dib.appendChild(anchor);
-            vehiculos.appendChild(div);
-        });
-
-    }
-
-}
+};
