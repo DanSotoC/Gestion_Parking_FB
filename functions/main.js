@@ -12,55 +12,112 @@ const config = {
 
 firebase.initializeApp(config);
 
-const firestore = firebase.firestore();
 
-const crear_dueño_form = document.querySelector("#crear_dueño_form");
-const guardar_dueño_btn = document.querySelector("#guardar_dueño_btn");
-const ingreso_form = document.querySelector("#ingreso_form");
-const save_patente_btn = document.querySelector("#save_patente_btn");
+const firestore = firebase.firestore();
+const crear_dueño_form = document.getElementById("crear_dueño_form");
+const ingreso_form = document.getElementById("ingreso_form");
+const Vehiculos_Container = document.getElementById("vehiculos-container");
+
+const getVehiculos = () => firebase.firestore().collection("Vehiculos").get();
+const ongetVehiculos = (callback) => firebase.firestore().collection("Vehiculos").onSnapshot(callback);
+const getPatente = (id) => firebase.firestore().collection("Vehiculos").doc(id).get();
+const updatePatente = (id, updatePatente) => firebase.firestore().collection("Vehiculos").doc(id).update(updatePatente);
 
 
 if (crear_dueño_form != null){
     let d;
     crear_dueño_form.addEventListener("submit", async(e)=>{ 
         e.preventDefault();
-        if(document.getElementById("nombre_dueño").value != "" && document.getElementById("apellido_dueño").value != "" && document.getElementById("patente_dueño").value != ""){
+        if(document.getElementById("nombre_dueño").value != "" && document.getElementById("apellido_dueño").value != "" && document.getElementById("patente_dueño").value != "")
+        {
             let nombre = document.getElementById("nombre_dueño").value;
             let apellido = document.getElementById("apellido_dueño").value;
             let patente = document.getElementById("patente_dueño").value;
             let telefono = document.getElementById("telefono_dueño").value;
             let descripcion = document.getElementById("descripcion_dueño").value;
-        
-            let post = {
+            
+            await firebase.firestore().collection("Dueños").doc().set({
                 nombre,
                 apellido,
                 patente,
                 telefono,
-                descripcion
-            }
-
-            await firebase.firestore().collection("Dueños").add(post);
-            console.log("Se ha creado el dueño correctamente...");
+                descripcion,
+            })
             alert("Se ha creado el dueño correctamente");
-            
-
-        }
-        else{
+            crear_dueño_form.reset();
+        }else
+        {
             console.log("Debe completar los primeros 2 campos...");
         }
-        
-        
-    })
+    });
 };
 
 
+window.addEventListener('DOMContentLoaded', async(e) => {
+    ongetVehiculos( (querySnapshot) =>{
+
+        Vehiculos_Container.innerHTML = '';
+
+        querySnapshot.forEach(doc => 
+        {
+            
+            const vehiculo_db = doc.data();
+
+            Vehiculos_Container.innerHTML += 
+            `<div class="card card-body mt-2 border-primary" >
+                        <tr>
+                        <td>${vehiculo_db.patente} </td>
+                        <td>${vehiculo_db.ingreso} </td>
+                        <td><button class="w3-button w3-white w3-padding-large w3-hover-red btn-salida" style="margin:0px 70px 0px 100px" data-id="${doc.id}"> Salida</td>
+                        </tr>
+                    </tbody>
+                </table>        
+                
+            </div>`;
+        })
+
+        const btnSalida = Vehiculos_Container.querySelectorAll(".btn-salida");
+        btnSalida.forEach((btn) => {
+            btn.addEventListener("click", async (e) => {
+                try {
+                    const doc = await getPatente(e.target.dataset.id);
+                    const vehiculo_out = doc.data();
+              
+                    let fecha = new Date();
+                    var h = fecha.getHours();
+                    var m = fecha.getMinutes();
+                    if (h == 24){
+                        h = 0;
+                    } else if(h > 12){
+                        h = h - 0;
+                    }
+                    if(h<10){
+                        h = "0"+ h;
+                    }
+                    if(m<10){
+                        m = "0"+ m;
+                    }
+
+                    let out = h + ":" + m;
+                    await updatePatente(e.target.dataset.id, {
+                        salida:out,
+                    })
+                    alert("Se agrego la salida correctamente")
+
+                }catch (error) {
+                    console.log(error);
+                }
+            })
+        })
+    })
+})
 
 if (ingreso_form != null){
     let d;
     ingreso_form.addEventListener("submit", async(e)=>{ 
-    
         e.preventDefault();
-        if(document.getElementById("patente").value != ""){
+        if(document.getElementById("patente").value != "")
+        {
             let fecha = new Date();
             var dia = fecha.getDate();
             var mes = fecha.getMonth();
@@ -78,29 +135,26 @@ if (ingreso_form != null){
             if(m<10){
                 m = "0"+ m;
             }
-
+            
             let patente = document.getElementById("patente").value;
             let fecha_total = dia+ "/"+ (mes+1) + "/" + year;
             let ingreso = h + ":" + m;
             let salida = "--:--";
 
-            let post = {
+            firebase.firestore().collection("Vehiculos").doc().set({
                 patente,
                 fecha_total,
                 ingreso,
                 salida,
-            }
+            })
+            alert("Se ha creado el dueño correctamente");
+            ingreso_form.reset();
 
-            await firebase.firestore().collection("Vehiculos").add(post);
-            console.log("Se ha agregado patente correctamente...");
-            alert("Se ha ingresado el vehiculo correctamente");
-
-
+        }else
+        {
+            console.log("Debe completar los campos...");
         }
-        else{
-            console.log("Error en la ejecución...");
-        }
-        
-        
-    })
+    });
 };
+
+
