@@ -60,20 +60,22 @@ window.addEventListener('DOMContentLoaded', async(e) => {
 
         querySnapshot.forEach(doc => 
         {
-            
+               
             const vehiculo_db = doc.data();
-
-            Vehiculos_Container.innerHTML += 
-            `<div class="card card-body mt-2 border-primary" >
-                        <tr>
-                        <td>${vehiculo_db.patente} </td>
-                        <td>${vehiculo_db.ingreso} </td>
-                        <td><button class="w3-button w3-white w3-padding-large w3-hover-red btn-salida" style="margin:0px 70px 0px 100px" data-id="${doc.id}"> Salida</td>
-                        </tr>
-                    </tbody>
-                </table>        
-                
-            </div>`;
+            
+            if(vehiculo_db.salida == "--:--") {
+                Vehiculos_Container.innerHTML += 
+                `<div class="card card-body mt-2 border-primary" >
+                            <tr>
+                            <td>${vehiculo_db.patente} </td>
+                            <td>${vehiculo_db.ingreso} </td>
+                            <td><button class="w3-button w3-white w3-padding-large w3-hover-red btn-salida" style="margin:0px 70px 0px 100px" data-id="${doc.id}"> Salida</td>
+                            </tr>
+                        </tbody>
+                    </table>        
+                    
+                </div>`;
+            }
         })
 
         const btnSalida = Vehiculos_Container.querySelectorAll(".btn-salida");
