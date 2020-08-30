@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<title> Gestion </title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="/public/main.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+  body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+  .w3-row-padding img {margin-bottom: 12px}
+  /* Set the width of the sidebar to 120px */
+  .w3-sidebar {width: 110px;background: #222;}
+  /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+  #main {margin-left: 110px}
+  /* Remove margins from "page content" on small screens */
+  @media only screen and (max-width: 600px) {#main {margin-left: 0}}
+</style>
+  
+
+<body class="w3-dark-grey">
+
+<!-- Icon Bar (Sidebar - hidden on small screens) -->
+<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+  <a href="" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-home w3-xxlarge"></i>
+    <p>HOME</p>
+  </a>
+  <a href="#in&out" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-car w3-xxlarge"></i>
+    <p>INGRESO & SALIDA</p>
+  </a>
+  <a href= "#crear_dueños" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-user-plus w3-xxlarge"></i>
+    <p>CREAR DUEÑO</p>
+  </a>
+   <a href="#" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-bar-chart w3-xxlarge"></i>
+    <p>DATOS</p>
+  </a>
+  </a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-wrench    w3-xxlarge"></i>
+    <p>AJUSTES</p>
+   </a>
+</nav>
+
+       <div class="banner w3-center">
+          <h1>Bienvenidos</h1>
+        </div>
+        <p style="text-align: center;">
+        AGREGAR ALGO EN ESTA SECCION <BR></BR>
+        AFLKJAFADLKFADLKFADLGFLADGKL
+        AFKDLFKASADFLDAKFLAKFLDAKFALFK
+        </p>
+    
+        <br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+        <!--- INGRESO & SALIDA (REF ID) --->
+        
+        <div class="w3-row-padding" style="margin:0px 0px 0px 100px"  id="in&out" >
+          <div class="w3-half">
+            <ul class="w3-ul w3-light-green w3-center w3-opacity w3-hover-opacity-off">
+              <li class="w3-dark-grey w3-xlarge w3-padding-32">INGRESO</li>
+
+                <form method="POST" id="ingreso_form" target="_blank">
+                  <p><input id="patente" class="w3-input w3-padding-16" type="text" placeholder="Patente" required  name="Patente"></p>
+                  <li class="w3-light-green w3-padding-24">
+                  <li class="w3-light-green w3-padding-24">
+                  <button id="save_patente_btn" class="w3-button w3-white w3-padding-large w3-hover-green" type="submit">GUARDAR</button>
+                </li>
+                </form>
+            </ul>
+          </div>
+    
+          <div class="w3-half" >
+            <ul class="w3-ul w3-light-blue w3-center w3-opacity w3-hover-opacity-off">
+              <li class="w3-dark-grey w3-xlarge w3-padding-32">SALIDA</li>
+            <div >
+              <table>
+                <thead>
+                  <tr>
+                    <th>Patente</th>
+                    <th>Entrada</th>
+                    <th hidden>Salida</th>
+                  </tr>
+                </thead>
+                <tbody id="vehiculos-container">
+
+                </tbody>
+              </table>
+            </ul>
+          </div>
+        </div>
+
+
+
+        <br></br><br></br><br></br><br></br><br></br><br></br><br><br><br><br>
+        <!--- END INGRESO & SALIDA (REF ID) --->
+
+        <div class="w3-padding-64 w3-content w3-text-grey" style="margin:0px 0px 0px 70px" id="crear_dueños">
+          <h1 class="w3-text-light-grey" style="margin:0px 0px 0px 70px">CREAR DUEÑOS</h1>
+          
+
+          <form method="POST" id="crear_dueño_form" target="_blank" style="margin:0px 0px 0px 70px">
+            <p><input id="nombre_dueño" class="w3-input w3-padding-16" type="text" placeholder="Nombre"  required name="Nombre"></p>
+            <p><input id="apellido_dueño" class="w3-input w3-padding-16" type="text" placeholder="Apellido" required name="Apellido"></p>
+            <p><input id="patente_dueño" class="w3-input w3-padding-16" type="text" placeholder="Patente" required name="Patente"></p>
+            <p><input id="telefono_dueño" class="w3-input w3-padding-16" type="text" placeholder="Telefono" name="Telefono"></p>
+            <p><input id="descripcion_dueño" class="w3-input w3-padding-16" type="text" placeholder="Descripcion" name="Descripcion"></p>
+            <p>
+              <button id="guardar_dueño_btn" class="w3-button w3-light-grey w3-padding-large" type="submit">
+                <i class="fa fa-paper-plane"></i> GUARDAR
+              </button>
+            </p>
+          </form>
+        </div>
+        <br></br><br></br><br></br><br></br><br></br><br></br><br><br><br><br>
+        <!--- End CREAR DUEÑOS --->
+
+
+
+    
+        <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-firestore.js"></script>
+        <!---<script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-storage.js"></script>-->
+        <script src="./functions/main.js"></script>
+
+</body>
+</html>
