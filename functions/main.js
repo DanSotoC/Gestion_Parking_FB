@@ -114,6 +114,7 @@ if (ingreso_form != null){
 window.addEventListener('DOMContentLoaded', async(e) => {
     ongetVehiculos( (querySnapshot) =>{
 
+        
         Vehiculos_Container.innerHTML = '';
 
         querySnapshot.forEach(doc => 
@@ -125,8 +126,8 @@ window.addEventListener('DOMContentLoaded', async(e) => {
                 Vehiculos_Container.innerHTML += 
                 `<div class="card card-body mt-2 border-primary" >
                             <tr>
-                            <td>${vehiculo_db.patente} </td>
-                            <td>${vehiculo_db.ingreso} </td>
+                            <td style="font-size: 20px">${vehiculo_db.patente} </td>
+                            <td style="font-size: 20px">${vehiculo_db.ingreso} </td>
                             <td><button class="w3-button w3-white w3-padding-large w3-hover-red btn-salida" style="margin:0px 70px 0px 100px" data-id="${doc.id}"> Salida</td>
                             </tr>
                         </tbody>
@@ -233,8 +234,7 @@ window.addEventListener('DOMContentLoaded', async(e) => {
 });
 
 //GET Formulario para obtener patentes filtrados (Busqueda)
-window.addEventListener('DOMContentLoaded', async(e) => {
-    ongetVehiculos( (querySnapshot) =>{
+window.addEventListener('DOMContentLoaded', async(e) => {    ongetVehiculos( (querySnapshot) =>{
         buscar_salida_form.addEventListener("submit", async(e)=>{ 
             e.preventDefault();
             Vehiculos_Container.innerHTML = '';
@@ -258,7 +258,93 @@ window.addEventListener('DOMContentLoaded', async(e) => {
                         
                     </div>`;
                 }
+                
             });
+
+            const btnSalida = Vehiculos_Container.querySelectorAll(".btn-salida");
+            btnSalida.forEach((btn) => {
+                btn.addEventListener("click", async (e) => {
+                    try {
+                        const doc = await getPatente(e.target.dataset.id);
+                        const vehiculo_out = doc.data();
+                  
+                        let fecha = new Date();
+                        var h = fecha.getHours();
+                        var m = fecha.getMinutes();
+                        if (h == 24){
+                            h = 0;
+                        } else if(h > 12){
+                            h = h - 0;
+                        }
+                        if(h<10){
+                            h = "0"+ h;
+                        }
+                        if(m<10){
+                            m = "0"+ m;
+                        }
+    
+                        let out = h + ":" + m;
+                        await updatePatente(e.target.dataset.id, {
+                            salida:out,
+                        })
+                        alert("Vehiculo Salio Correctamente")
+    
+                    }catch (error) {
+                        console.log(error);
+                    }
+                })
+            })
+
         });
     });
 });
+
+function Ocultar_Mostar(){
+    var x = document.getElementById("password_login");
+    var y = document.getElementById("eye1");
+    var z = document.getElementById("eye2");
+
+    if (x.type == 'password'){
+        x.type="text";
+        z.style.display="inline";
+        y.style.display="none";
+    }
+    else{
+        x.type="password";
+        y.style.display="inline";
+        z.style.display="none";
+    }   
+};
+
+const login_form = document.querySelector('#login_form');
+const auth = firebase.auth()
+
+login_form.addEventListener('submit',(e) => {
+    e.preventDefault();
+    const email = document.querySelector('#email_login').value;
+    const password = document.querySelector('#password_login').value;
+    auth.signInWithEmailAndPassword(email,password).then( userCredential =>{
+            localStorage.setItem("Email", document.getElementById("email_login").value);
+            window.location = 'index.html'
+        })
+
+})
+
+function registro(){
+    const emails = document.querySelector('#email_login').value;
+    const passwords = document.querySelector('#password_login').value;
+
+    auth
+        .createUserWithEmailAndPassword(emails,passwords)
+        .then( userCredential =>{
+            login_form.reset();
+            alert("Se ha registrado correctamente");
+        })
+
+}
+const logout = document.querySelector('#logout');
+logout.addEventListener('click', (e) => {
+        alert("Se ha cerrado sesión");
+        window.location = 'login.html'
+})
+
